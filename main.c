@@ -5,125 +5,117 @@
 #include "sorting.h"
 
 #define SIZE 1000
-#define MAX_WORDS 1000
 #define WORD_LEN 100
 
-void generateRandom(int arr[]) {
-    for(int i = 0; i < SIZE; i++) {
-        arr[i] = rand() % 1000;
-    }
-}
-
-void shuffle(int arr[], int n) {
-    for(int i = 0; i < n; i++) {
-        int j = rand() % n;
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-}
-
-void printArray(int arr[]) {
-    for(int i = 0; i < 10; i++) {
-        printf("%d ", arr[i]);
-    }
+void printInt(int arr[]) {
+    for(int i=0;i<10;i++) printf("%d ",arr[i]);
     printf("\n");
 }
 
-int main() {
-    int choice, method;
+void printWords(char arr[][WORD_LEN], int n) {
+    for(int i=0;i<10 && i<n;i++)
+        printf("%s ",arr[i]);
+    printf("\n");
+}
+
+void shuffleInt(int arr[], int n){
+    for(int i=0;i<n;i++){
+        int j=rand()%n;
+        int t=arr[i]; arr[i]=arr[j]; arr[j]=t;
+    }
+}
+
+void shuffleString(char arr[][WORD_LEN], int n){
+    for(int i=0;i<n;i++){
+        int j=rand()%n;
+        char t[WORD_LEN];
+        strcpy(t,arr[i]);
+        strcpy(arr[i],arr[j]);
+        strcpy(arr[j],t);
+    }
+}
+
+int loadWords(char arr[][WORD_LEN]){
+    FILE *fp=fopen("words.txt","r");
+    int count=0;
+
+    if(!fp) return 0;
+
+    while(fscanf(fp,"%s",arr[count])!=EOF)
+        count++;
+
+    fclose(fp);
+    return count;
+}
+
+int main(){
+    int choice,method;
     int arr[SIZE];
+    char words[1000][WORD_LEN];
+    int count;
 
     srand(time(NULL));
 
-    do {
-        printf("\n===== MENU UTAMA =====\n");
-        printf("1. Sorting Dasar\n");
-        printf("2. Advance Sorting\n");
-        printf("3. Keluar\n");
-        printf("Pilih menu : ");
-        scanf("%d", &choice);
+    do{
+        printf("\n1. Sorting Dasar\n2. Advance Sorting\n3. Exit\n");
+        printf("Pilih: ");
+        scanf("%d",&choice);
 
-        switch(choice) {
-            case 1:{
-                generateRandom(arr);
-                shuffle(arr, SIZE);
+        switch(choice){
 
-                printf("\n===== SORTING DASAR =====\n");
-                printf("1. Bubble Sort\n");
-                printf("2. Insertion Sort\n");
-                printf("3. Selection Sort\n");
-                printf("Pilih metode : ");
-                scanf("%d", &method);
+        case 1:{
+            for(int i=0;i<SIZE;i++) arr[i]=rand()%1000;
+            shuffleInt(arr,SIZE);
 
-                printf("\nData sebelum sorting:\n");
-                printArray(arr);
+            printf("\nBubble/Insertion/Selection\nPilih: ");
+            scanf("%d",&method);
 
-                clock_t start = clock();
+            clock_t s=clock();
 
-                if(method == 1)
-                    bubbleSort(arr, SIZE);
-                else if(method == 2)
-                    insertionSort(arr, SIZE);
-                else if(method == 3)
-                    selectionSort(arr, SIZE);
+            if(method==1) bubbleSort(arr,SIZE);
+            else if(method==2) insertionSort(arr,SIZE);
+            else selectionSort(arr,SIZE);
 
-                clock_t end = clock();
+            clock_t e=clock();
 
-                printf("\nData setelah sorting:\n");
-                printArray(arr);
+            printInt(arr);
+            printf("Time: %f\n",(double)(e-s)/CLOCKS_PER_SEC);
 
-                double time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+            break;
+        }
 
-                printf("\nWaktu eksekusi: %f detik\n", time_taken);
+        case 2:{
+            count=loadWords(words);
+            if(!count) break;
 
-                break;
-    
-            }
+            shuffleString(words,count);
 
-            case 2:{
-                generateRandom(arr);
-                shuffle(arr, SIZE);
+            printf("\nMerge/Quick/Shell\nPilih: ");
+            scanf("%d",&method);
 
-                printf("\n===== ADVANCE SORTING =====\n");
-                printf("1. Merge Sort\n");
-                printf("2. Quick Sort\n");
-                printf("3. Shell Sort\n");
-                printf("Pilih metode : ");
-                scanf("%d", &method);
+            clock_t s=clock();
 
-                printf("\nData sebelum sorting:\n");
-                printArray(arr);
+            if(method==1) mergeSortString(words,0,count-1);
+            else if(method==2) quickSortString(words,0,count-1);
+            else shellSortString(words,count);
 
-                clock_t start = clock();
+            clock_t e=clock();
 
-                if(method == 1)
-                    mergeSort(arr, 0, SIZE - 1);
-                else if(method == 2)
-                    quickSort(arr, 0, SIZE - 1);
-                else if(method == 3)
-                     shellSort(arr, SIZE);
+            printWords(words,count);
+            printf("Time: %f\n",(double)(e-s)/CLOCKS_PER_SEC);
 
-                clock_t end = clock();
+            break;
+        }
 
-                printf("\nData setelah sorting:\n");
-                printArray(arr);
+        case 3:
+            printf("Exit\n");
+            break;
 
-                double time_taken =((double)(end - start)) / CLOCKS_PER_SEC;
-                printf("\nWaktu eksekusi: %f detik\n", time_taken);
-            
-             break;
-            }
+        default:
+            printf("Invalid\n");
+        }
 
-            case 3:
-                printf("Program selesai.\n");
-                break;
-
-            default:
-        }        printf("Pilihan tidak valid.\n");
-        
-
-    }  while(choice != 3);
+    }while(choice!=3);
 
     return 0;
 }
