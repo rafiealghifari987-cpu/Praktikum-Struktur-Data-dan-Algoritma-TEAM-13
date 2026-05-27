@@ -39,12 +39,13 @@ int main() {
     do {
         printf("\n===== MENU UTAMA =====\n");
         printf("1. Sorting Dasar\n");
-        printf("2. Keluar\n");
+        printf("2. Advance Sorting\n");
+        printf("3. Keluar\n");
         printf("Pilih menu : ");
         scanf("%d", &choice);
 
         switch(choice) {
-            case 1:
+            case 1:{
                 generateRandom(arr);
                 shuffle(arr, SIZE);
 
@@ -77,16 +78,52 @@ int main() {
                 printf("\nWaktu eksekusi: %f detik\n", time_taken);
 
                 break;
+    
+            }
 
-            case 2:
+            case 2:{
+                generateRandom(arr);
+                shuffle(arr, SIZE);
+
+                printf("\n===== ADVANCE SORTING =====\n");
+                printf("1. Merge Sort\n");
+                printf("2. Quick Sort\n");
+                printf("3. Shell Sort\n");
+                printf("Pilih metode : ");
+                scanf("%d", &method);
+
+                printf("\nData sebelum sorting:\n");
+                printArray(arr);
+
+                clock_t start = clock();
+
+                if(method == 1)
+                    mergeSort(arr, 0, SIZE - 1);
+                else if(method == 2)
+                    quickSort(arr, 0, SIZE - 1);
+                else if(method == 3)
+                     shellSort(arr, SIZE);
+
+                clock_t end = clock();
+
+                printf("\nData setelah sorting:\n");
+                printArray(arr);
+
+                double time_taken =((double)(end - start)) / CLOCKS_PER_SEC;
+                printf("\nWaktu eksekusi: %f detik\n", time_taken);
+            
+             break;
+            }
+
+            case 3:
                 printf("Program selesai.\n");
                 break;
 
             default:
-                printf("Pilihan tidak valid.\n");
-        }
+        }        printf("Pilihan tidak valid.\n");
+        
 
-    } while(choice != 2);
+    }  while(choice != 3);
 
     return 0;
 }
