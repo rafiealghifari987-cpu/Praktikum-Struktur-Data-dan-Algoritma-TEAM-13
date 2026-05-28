@@ -84,29 +84,42 @@ int main(){
             break;
         }
 
-        case 2:{
-            count=loadWords(words);
-            if(!count) break;
+        case 2: {
+            count = loadWords(words);
+            if(count == 0) break;
 
-            shuffleString(words,count);
+            shuffleString(words, count);
 
-            printf("\nMerge/Quick/Shell\nPilih: ");
-            scanf("%d",&method);
+            printf("\nMerge/Quick/Shell\n");
+            printf("Pilih: ");
+            scanf("%d", &method);
 
-            clock_t s=clock();
+            printf("\nSebelum sorting:\n");
+            printWords(words, count);
 
-            if(method==1) mergeSortString(words,0,count-1);
-            else if(method==2) quickSortString(words,0,count-1);
-            else shellSortString(words,count);
+            clock_t start = clock();
 
-            clock_t e=clock();
+            if(method == 1)
+                 mergeSortString(words, 0, count - 1);
+            else if(method == 2)
+                  quickSortString(words, 0, count - 1);
+            else if(method == 3)
+               shellSortString(words, count);
+            else {
+                printf("Pilihan salah!\n");
+                 break;
+            }
 
-            printWords(words,count);
-            printf("Time: %f\n",(double)(e-s)/CLOCKS_PER_SEC);
+             clock_t end = clock();
 
-            break;
-        }
+                printf("\nSetelah sorting:\n");
+                printWords(words, count);
 
+                printf("Time: %f\n",
+                (double)(end - start) / CLOCKS_PER_SEC);
+
+                break;
+            }
         case 3:
             printf("Exit\n");
             break;
