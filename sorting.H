@@ -2,7 +2,7 @@
 #define SORTING_H
 
 #define DATA_SIZE 1000
-#define MAX_WORDS 100000
+#define MAX_WORDS 500000
 #define MAX_WORD_LEN 100
 #define DISPLAY_COUNT 10
 
