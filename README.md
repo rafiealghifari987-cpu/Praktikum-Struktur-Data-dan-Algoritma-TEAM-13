@@ -17,10 +17,11 @@
 
 
 ## Struktur File
-├── main.c       # Menu utama program
-├── sorting.h    # Header: define & deklarasi fungsi
-├── sorting.c    # Implementasi semua algoritma sorting
-├── words.txt    # Dataset kata (dari Kaggle)
+
+├── main.c     
+├── sorting.h    
+├── sorting.c   
+├── words.txt    
 └── README.md
 
 ## Cara Compile & Menjalankan
