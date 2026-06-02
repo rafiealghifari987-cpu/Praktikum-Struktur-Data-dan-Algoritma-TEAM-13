@@ -23,9 +23,13 @@
 ## Struktur File
 
 ├── main.c
+
 ├── sorting.h
+
 ├── sorting.c
+
 ├── words.txt    
+
 └── README.md
 
 ## Cara Compile & Menjalankan
