@@ -22,9 +22,9 @@
 
 ## Struktur File
 
+├── main.c
 ├── sorting.h
 ├── sorting.c
-├── main.c
 ├── words.txt    
 └── README.md
 
